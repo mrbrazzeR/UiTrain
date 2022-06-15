@@ -20,13 +20,13 @@ public class CSVtoSO:MonoBehaviour
        foreach(string data in invenData)
         {
             string[] row = data.Split(new char[] {','});
-            InventoryData inventoryData=new InventoryData();
-            int.TryParse(row[0], out inventoryData.id);
-            inventoryData.name = row[1];
-            int.TryParse(row[2], out inventoryData.value);
-            foreach (InventoryData addedData in invenCollection.dataGroups)
+            Item item=new Item();
+            int.TryParse(row[0], out item.id);
+            item.name = row[1];
+            int.TryParse(row[2], out item.value);
+            foreach (Item addedData in invenCollection.dataGroups)
             {
-                if(addedData.id==inventoryData.id)
+                if(addedData.id==item.id)
                 {
                     added = true;
                     break;
@@ -35,7 +35,7 @@ public class CSVtoSO:MonoBehaviour
 
             if (!added)
             {
-                invenCollection.dataGroups.Add(inventoryData);
+                invenCollection.dataGroups.Add(item);
             }
             else
             {
