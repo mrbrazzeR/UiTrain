@@ -10,6 +10,7 @@ public class CSVtoSO:MonoBehaviour
 {
     public InventoryCollection invenCollection;
     private static string path = "/Resources/csv/inventory.csv";
+    private static bool added=false;
     void Start()
     {
         string[] invenData = File.ReadAllLines(Application.dataPath + path);
@@ -23,8 +24,23 @@ public class CSVtoSO:MonoBehaviour
             int.TryParse(row[0], out inventoryData.id);
             inventoryData.name = row[1];
             int.TryParse(row[2], out inventoryData.value);
-            invenCollection.dataGroups.Add(inventoryData);
-            Debug.Log(inventoryData.name);
+            foreach (InventoryData addedData in invenCollection.dataGroups)
+            {
+                if(addedData.id==inventoryData.id)
+                {
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added)
+            {
+                invenCollection.dataGroups.Add(inventoryData);
+            }
+            else
+            {
+                added = false;
+            }
         }
     }
     

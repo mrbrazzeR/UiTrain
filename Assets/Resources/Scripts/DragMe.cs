@@ -8,7 +8,7 @@ public class DragMe : MonoBehaviour, IBeginDragHandler, IEndDragHandler,IDragHan
     public Vector3 startPosition;
     void Start()
     {
-        startPosition = transform.position;
+        
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
