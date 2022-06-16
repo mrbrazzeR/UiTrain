@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8c4b9e4a64cacb4fb4736f93571fbe2, type: 3}
-  m_Name: GemBlue
+  m_Script: {fileID: 11500000, guid: 284281cecf6645643beec9ad6855a37f, type: 3}
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  id: 3
-  itemName: gem blue
-  art: {fileID: 21300000, guid: fa65d645a34a577419cb9e893a4011fa, type: 3}
-  strength: 0
+  id: 1
+  itemName: AXE
+  art: {fileID: 21300000, guid: 11afa5cbe2051d84a83f7d4081110324, type: 3}
+  strength: 15
   agility: 0
   intelligence: 0
-  vitality: 0
+  vitality: 4
+  EquipmentType: 3

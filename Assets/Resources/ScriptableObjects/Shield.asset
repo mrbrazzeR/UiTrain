@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284281cecf6645643beec9ad6855a37f, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  id: 0
-  name: 
+  id: 5
+  itemName: shield
   art: {fileID: 21300000, guid: 63733250567389c43800ca39be6cdaa1, type: 3}
   strength: 5
   agility: 3

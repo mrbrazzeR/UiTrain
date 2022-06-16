@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8c4b9e4a64cacb4fb4736f93571fbe2, type: 3}
-  m_Name: GemBlue
+  m_Script: {fileID: 11500000, guid: 284281cecf6645643beec9ad6855a37f, type: 3}
+  m_Name: DoubleAxe
   m_EditorClassIdentifier: 
-  id: 3
-  itemName: gem blue
-  art: {fileID: 21300000, guid: fa65d645a34a577419cb9e893a4011fa, type: 3}
+  id: 2
+  itemName: axe double
+  art: {fileID: 21300000, guid: 8ef8c13b58fb5e84ca00968f8f540ea3, type: 3}
   strength: 0
   agility: 0
   intelligence: 0
   vitality: 0
+  EquipmentType: 3

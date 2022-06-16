@@ -11,9 +11,9 @@ public class Inventory : MonoBehaviour
 
     public event Action<Item> OnItemLeftClickedEvent;
 
-   
 
-    private void Awake()
+
+    private void Start()
     {
         for (int i = 0; i < itemSlots.Length; i++)
         {
@@ -42,15 +42,26 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem(EquipableItem item)
     {
-        if (IsFull())
-        {
-            return false;
-        }
         items.Add(item);
-        RefreshUI();
-        return true;
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i]!=null)
+            {
+                EquipableItem currenItem = (EquipableItem)itemSlots[i].Item;
+                if (currenItem.EquipmentType == item.EquipmentType)
+                {
+                    
+                    itemSlots[i].Item = item;
+                    
+                }
+                RefreshUI();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool RemoveItem(Item item)
@@ -68,5 +79,6 @@ public class Inventory : MonoBehaviour
     {
         return items.Count >= itemSlots.Length;
     }
+
     
 }

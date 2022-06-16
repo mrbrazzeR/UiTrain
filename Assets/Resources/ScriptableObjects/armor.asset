@@ -13,14 +13,10 @@ MonoBehaviour:
   m_Name: Armor
   m_EditorClassIdentifier: 
   id: 0
-  name: 
+  itemName: ARMOR
   art: {fileID: 21300000, guid: ab0226cd28d392f419078c390d24f898, type: 3}
   strength: 5
   agility: 0
   intelligence: 0
   vitality: 0
-  StrengthBonus: 0
-  AgiltyBonus: 0
-  IntelligenceBonus: 0
-  VitalityBonus: 0
   EquipmentType: 1

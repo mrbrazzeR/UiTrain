@@ -24,7 +24,7 @@ public class CSVtoSO:MonoBehaviour
             string[] row = data.Split(new char[] {','});
             Item item=new Item();
             int.TryParse(row[0], out item.id);
-            item.name = row[1];
+            item.itemName = row[1];
             int.TryParse(row[2], out item.strength);
             int.TryParse(row[3], out item.agility);
             int.TryParse(row[4], out item.intelligence);

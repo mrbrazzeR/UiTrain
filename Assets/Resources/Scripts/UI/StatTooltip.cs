@@ -87,7 +87,7 @@ public class StatTooltip : MonoBehaviour
             if (item != null)
             {
                 sb.Append(" ");
-                sb.Append(item.name);
+                sb.Append(item.itemName);
             }
             if (mod.Value > 0)
             {

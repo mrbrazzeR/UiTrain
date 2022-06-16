@@ -19,7 +19,7 @@ public class ItemTooltip : MonoBehaviour
 
     public void ShowTooltip(Item item)
     {
-        ItemNameText.text = item.name;
+        ItemNameText.text = item.itemName;
         ItemSlotText.text = "";
         ItemStatsText.text = "";
         gameObject.SetActive(true);
@@ -27,7 +27,7 @@ public class ItemTooltip : MonoBehaviour
     
     public void ShowTooltip(EquipableItem item)
     {
-        ItemNameText.text = item.name;
+        ItemNameText.text = item.itemName;
         ItemSlotText.text = item.EquipmentType.ToString();
         sb.Length = 0;
         AddStat(item.strength,"Strength");

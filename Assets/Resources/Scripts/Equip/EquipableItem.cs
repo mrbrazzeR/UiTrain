@@ -1,8 +1,5 @@
 using UiTrain.CharacterStats;
 using UnityEngine;
-
-
-
 public enum EquipmentType
 {
     Helmet,
