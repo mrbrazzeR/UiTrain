@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284281cecf6645643beec9ad6855a37f, type: 3}
   m_Name: Helmet
   m_EditorClassIdentifier: 
-  id: 0
+  id: 1
   name: 
-  art: {fileID: 0}
-  value: 0
+  art: {fileID: 21300000, guid: fa1534fcea2a752429f831550d02ae49, type: 3}
+  strength: 4
+  agility: 1
+  intelligence: 2
+  vitality: 0
+  StrengthBonus: 0
+  AgiltyBonus: 0
+  IntelligenceBonus: 0
+  VitalityBonus: 0
   EquipmentType: 0

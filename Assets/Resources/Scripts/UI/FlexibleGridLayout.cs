@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,18 +10,6 @@ public class FlexibleGridLayout : LayoutGroup
     public Vector2 cellSize;
 
     public Vector2 spacing;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void CalculateLayoutInputHorizontal()
     {
         base.CalculateLayoutInputHorizontal();
@@ -59,16 +45,16 @@ public class FlexibleGridLayout : LayoutGroup
 
     public override void CalculateLayoutInputVertical()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public override void SetLayoutHorizontal()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void SetLayoutVertical()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

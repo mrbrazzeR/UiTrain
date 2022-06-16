@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentPanel : MonoBehaviour
 {
     [SerializeField] Transform equipmentSlotsParent;
     [SerializeField] Inventory invetory;
-    [SerializeField] EquipmentSlot[] equipmentSlots;
+    [SerializeField] public EquipmentSlot[] equipmentSlots;
    
     public event Action<Item> OnItemClicked;
     

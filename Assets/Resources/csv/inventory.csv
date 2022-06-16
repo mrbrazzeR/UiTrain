@@ -1,4 +1,4 @@
-id,name,value
-1,armor,1
-2,axe,1
-3,axe2,1
+id,name,strength,agility,intelligence,vitality
+1,armor,3,3,1,0
+2,axe,1,2,2,0
+3,axe2,1,4,1,1

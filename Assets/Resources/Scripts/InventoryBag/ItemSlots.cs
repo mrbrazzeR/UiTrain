@@ -3,9 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlots : MonoBehaviour,IPointerClickHandler
+public class ItemSlots : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler
 {
     [SerializeField] Image Image;
+    [SerializeField] ItemTooltip itemTooltip;
     private Item _item;
     public event Action<Item> OnLeftClickEvent;
     public Item Item
@@ -31,6 +32,8 @@ public class ItemSlots : MonoBehaviour,IPointerClickHandler
     {
         if (Image == null)
             Image = GetComponent<Image>();
+        if (itemTooltip == null)
+            itemTooltip = FindObjectOfType<ItemTooltip>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -42,5 +45,20 @@ public class ItemSlots : MonoBehaviour,IPointerClickHandler
                 OnLeftClickEvent(Item);
             }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(Item is EquipableItem)
+        {itemTooltip.ShowTooltip((EquipableItem)Item);}
+        else if (Item is Item)
+        {
+            itemTooltip.ShowTooltip((Item));
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        itemTooltip.HideToolTip();       
     }
 }
