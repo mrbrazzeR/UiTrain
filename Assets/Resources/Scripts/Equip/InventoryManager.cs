@@ -1,5 +1,6 @@
 using UnityEngine;
 using UiTrain.CharacterStats;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
@@ -13,26 +14,25 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] EquipmentPanel equipmentPanel;
     [SerializeField] StatPanel statPanel;
 
-    [SerializeField] Image dragImage;
+    [SerializeField] Image draggableImage;
     private ItemSlot draggedSlot;
-    private Item draggedItem;
 
     private void Awake()
     {
         statPanel.SetStats(Strength, Agility, Intelligence, Vitality);
         statPanel.UpdateStatValues();
-        inventory.OnItemDroppedEvent += OnDrop;
-        equipmentPanel.OnItemDroppedEvent += OnDrop;
-
         inventory.OnItemRightClickedEvent += Equip;
         equipmentPanel.OnItemRightClickedEvent += UnEquip;
 
         inventory.OnItemBeginDragEvent += BeginDrag;
         equipmentPanel.OnItemBeginDragEvent += BeginDrag;
 
-        inventory.OnItemDraggingEvent += OnDrag;
-        equipmentPanel.OnItemDraggingEvent += OnDrag;
+        inventory.OnDragEvent += Drag;
+        equipmentPanel.OnItemDraggingEvent += Drag;
 
+        inventory.OnItemDroppedEvent += Drop;
+        equipmentPanel.OnItemDroppedEvent += Drop;
+        
         inventory.OnItemEndDragEvent += EndDrag;
         equipmentPanel.OnItemEndDragEvent += EndDrag;
     }
@@ -96,45 +96,44 @@ public class InventoryManager : MonoBehaviour
         if (itemSlot.Item != null)
         {
             draggedSlot = itemSlot;
-            dragImage.sprite = itemSlot.Item.art;
-            dragImage.transform.position = Input.mousePosition;
-            dragImage.enabled = true;
+            draggableImage.sprite = itemSlot.Item.art;
+            draggableImage.transform.position = Input.mousePosition;
+            draggableImage.enabled = true;
         }
     }
-
-    private void OnDrag(ItemSlot itemSlot)
-    {
-        if (dragImage != null)
-            dragImage.transform.position = Input.mousePosition;
-    }
-
     private void EndDrag(ItemSlot itemSlot)
     {
         draggedSlot = null;
-        dragImage.enabled = false;
+        draggableImage.enabled = false;
     }
-
-    private void OnDrop(ItemSlot itemSlot)
+    private void Drag(ItemSlot itemSlot)
     {
-        if (itemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(itemSlot.Item))
+        if (draggableImage.enabled)
+        {
+            draggableImage.transform.position = Input.mousePosition;
+        }
+    }
+    private void Drop(ItemSlot dropItemSlot)
+    {
+        if (dropItemSlot.CanReceiveItem(draggedSlot.Item) && draggedSlot.CanReceiveItem(dropItemSlot.Item))
         {
             EquipableItem dragItem = draggedSlot.Item as EquipableItem;
-            EquipableItem dropItem = itemSlot.Item as EquipableItem;
+            EquipableItem dropItem = dropItemSlot.Item as EquipableItem;
             if (draggedSlot is EquipmentSlot)
-            {
-                if (dragItem != null) dragItem.UnEquip(this);
-                if (dropItem != null) dropItem.Equip(this);
-            }
-
-            if (itemSlot is EquipmentSlot)
             {
                 if (dragItem != null) dragItem.Equip(this);
                 if (dropItem != null) dropItem.UnEquip(this);
             }
 
+            if (dropItemSlot is EquipmentSlot)
+            {
+                if (dragItem != null) dragItem.Equip(this);
+                if (dropItem != null) dropItem.UnEquip(this);
+            }
+            statPanel.UpdateStatValues();
             Item dragged = draggedSlot.Item;
-            draggedSlot.Item = itemSlot.Item;
-            itemSlot.Item = dragged;
+            draggedSlot.Item = dropItemSlot.Item;
+            dropItemSlot.Item = dragged;
         }
     }
 }

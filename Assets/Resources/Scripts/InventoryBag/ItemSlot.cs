@@ -51,7 +51,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
     {
         if (eventData != null && eventData.button == PointerEventData.InputButton.Right)
         {
-            if (Item != null && OnRightClickEvent != null)
+            if (OnRightClickEvent != null)
             {
                 OnRightClickEvent(this);
             }
@@ -77,7 +77,6 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
     {
         if (OnBeginDragEvent != null)
         {
-            Debug.Log("begin drag");
             OnBeginDragEvent(this);
         }
     }
@@ -95,13 +94,15 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
     {
         if (OnEndDragEvent != null)
         {
-            Debug.Log("On End drag");
             OnEndDragEvent(this);
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        throw new NotImplementedException();
+        if (OnDropEvent != null)
+        {
+            OnDropEvent(this);
+        }
     }
 }
