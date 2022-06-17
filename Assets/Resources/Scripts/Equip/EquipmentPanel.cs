@@ -4,17 +4,23 @@ using UnityEngine;
 public class EquipmentPanel : MonoBehaviour
 {
     [SerializeField] Transform equipmentSlotsParent;
-    [SerializeField] Inventory invetory;
     [SerializeField] public EquipmentSlot[] equipmentSlots;
    
-    public event Action<Item> OnItemClicked;
+    public event Action<ItemSlot> OnItemRightClickedEvent;
+    public event Action<ItemSlot> OnItemBeginDragEvent;
+    public event Action<ItemSlot> OnItemDraggingEvent;
+    public event Action<ItemSlot> OnItemEndDragEvent;
+    public event Action<ItemSlot> OnItemDroppedEvent;
     
-    
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < equipmentSlots.Length; i++)
         {
-            equipmentSlots[i].OnLeftClick += OnItemClicked;
+            equipmentSlots[i].OnRightClickEvent += OnItemRightClickedEvent;
+            equipmentSlots[i].OnBeginDragEvent += OnItemBeginDragEvent; 
+            equipmentSlots[i].OnDragEvent += OnItemDraggingEvent;
+            equipmentSlots[i].OnEndDragEvent += OnItemEndDragEvent;
+            equipmentSlots[i].OnDropEvent += OnItemDroppedEvent;
         }
     }
     private void OnValidate()
@@ -40,7 +46,7 @@ public class EquipmentPanel : MonoBehaviour
     {
         for (int i = 0; i < equipmentSlots.Length; i++)
         {
-            if (equipmentSlots[i].EquipmentType == item.EquipmentType)
+            if (equipmentSlots[i].Item == item)
             {
                 equipmentSlots[i].Item = null;
                 return true;

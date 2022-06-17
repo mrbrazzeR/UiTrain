@@ -7,24 +7,33 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] private List<Item> items;
     [SerializeField] private Transform itemsParent;
-    [SerializeField] private ItemSlots[] itemSlots;
+    [SerializeField] private ItemSlot[] itemSlots;
 
-    public event Action<Item> OnItemLeftClickedEvent;
+    public event Action<ItemSlot> OnItemRightClickedEvent;
+    public event Action<ItemSlot> OnItemBeginDragEvent;
+    public event Action<ItemSlot> OnItemDraggingEvent;
+    public event Action<ItemSlot> OnItemEndDragEvent;
+    public event Action<ItemSlot> OnItemDroppedEvent;
 
-
+    [SerializeField] private int currentLastIndex;
 
     private void Start()
     {
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            itemSlots[i].OnLeftClickEvent += OnItemLeftClickedEvent;
+            itemSlots[i].OnRightClickEvent += OnItemRightClickedEvent;
+            itemSlots[i].OnBeginDragEvent += OnItemBeginDragEvent;
+            itemSlots[i].OnDragEvent += OnItemDraggingEvent;
+            itemSlots[i].OnEndDragEvent += OnItemEndDragEvent;
+            itemSlots[i].OnDropEvent += OnItemDroppedEvent;
         }
+        RefreshUI();
     }
     private void OnValidate()
     {
         if (itemsParent != null)
         {
-            itemSlots = itemsParent.GetComponentsInChildren<ItemSlots>();
+            itemSlots = itemsParent.GetComponentsInChildren<ItemSlot>();
         }
         RefreshUI();
     }
@@ -42,43 +51,28 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool AddItem(EquipableItem item)
+    public bool AddItem(Item item)
     {
         items.Add(item);
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (itemSlots[i]!=null)
+            if (itemSlots[i].Item==null)
             {
-                EquipableItem currenItem = (EquipableItem)itemSlots[i].Item;
-                if (currenItem.EquipmentType == item.EquipmentType)
-                {
-                    
-                    itemSlots[i].Item = item;
-                    
-                }
+                itemSlots[i].Item = item;
                 RefreshUI();
+                Debug.Log("add to inventory");
                 return true;
             }
         }
-
+        RefreshUI();
         return false;
     }
 
     public bool RemoveItem(Item item)
     {
-        if (items.Remove(item))
-        {
-            RefreshUI();
-            return true;
-        }
-
-        return false;
+        if (!items.Remove(item)) return false;
+        RefreshUI();
+        Debug.Log("remove from invent");
+        return true;
     }
-    
-    public bool IsFull()
-    {
-        return items.Count >= itemSlots.Length;
-    }
-
-    
 }
