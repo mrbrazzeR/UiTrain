@@ -2,25 +2,29 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     
-    [SerializeField] private List<Item> startingItems;
-    [SerializeField] private Transform itemsParent;
-    [SerializeField] private ItemSlot[] itemSlots;
+    [SerializeField] protected List<Item> startingItems;
+    [SerializeField] protected List<Item> currentItems;
+    [SerializeField] protected Transform itemsParent;
+    [SerializeField] protected List<ItemSlot> itemSlots;
 
+    [SerializeField] private Button addButton;
+    [SerializeField] private Button removeButton;
     public event Action<ItemSlot> OnItemRightClickedEvent;
     public event Action<ItemSlot> OnItemBeginDragEvent;
     public event Action<ItemSlot> OnDragEvent;
     public event Action<ItemSlot> OnItemEndDragEvent;
     public event Action<ItemSlot> OnItemDroppedEvent;
+    
 
-    [SerializeField] private int currentLastIndex;
-
-    private void Start()
+    protected virtual void Start()
     {
-        for (int i = 0; i < itemSlots.Length; i++)
+        for (int i = 0; i < itemSlots.Count; i++)
         {
             itemSlots[i].OnRightClickEvent += OnItemRightClickedEvent;
             itemSlots[i].OnBeginDragEvent += OnItemBeginDragEvent;
@@ -28,50 +32,74 @@ public class Inventory : MonoBehaviour
             itemSlots[i].OnEndDragEvent += OnItemEndDragEvent;
             itemSlots[i].OnDropEvent += OnItemDroppedEvent;
         }
-        SetStartingItems();
+
+        currentItems.RemoveAll(CanRemove);
+        SetCurrentItems();
+        addButton.onClick.AddListener(AddItemToInventory);
+        removeButton.onClick.AddListener(RemoveItemFromInventory);
     }
     private void OnValidate()
     {
         if (itemsParent != null)
         {
-            itemSlots = itemsParent.GetComponentsInChildren<ItemSlot>();
+            itemsParent.GetComponentsInChildren(true, itemSlots);
         }
-        SetStartingItems();
     }
-    private void SetStartingItems()
+
+    private void SetCurrentItems()
     {
         int i = 0;
-        for (; i < startingItems.Count && i < itemSlots.Length; i++)
+        for (; i < currentItems.Count && i<itemSlots.Count; i++)
         {
-            itemSlots[i].Item = startingItems[i];
+            itemSlots[i].Item = currentItems[i];
         }
 
-        for (; i < itemSlots.Length; i++)
+        for (; i < itemSlots.Count; i++)
         {
             itemSlots[i].Item = null;
         }
     }
 
+    private void AddItemToInventory()
+    {
+        currentItems.Add(startingItems[Random.Range(0,startingItems.Count)]);
+        SetCurrentItems();
+    }
+
+    private void RemoveItemFromInventory()
+    {
+        if(currentItems.Count>0) 
+            currentItems.RemoveAt(currentItems.Count-1);
+        SetCurrentItems();
+    }
     public bool AddItem(Item item)
     {
-        startingItems.Add(item);
-        for (int i = 0; i < itemSlots.Length; i++)
+        currentItems.Add(item);
+        for (int i = 0; i < itemSlots.Count; i++)
         {
             if (itemSlots[i].Item==null)
             {
                 itemSlots[i].Item = item;
-                SetStartingItems();
+                SetCurrentItems();
                 return true;
             }
         }
-        SetStartingItems();
+        SetCurrentItems();
         return false;
     }
 
     public bool RemoveItem(Item item)
     {
-        if (!startingItems.Remove(item)) return false;
-        SetStartingItems();
+        if (!currentItems.Remove(item)) return false;
+        SetCurrentItems();
         return true;
     }
+
+    public bool CanRemove(Item item)
+    {
+        return true;
+    }
+    
+    
+    
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler,IBeginDragHandler, IEndDragHandler,IDragHandler,
     IDropHandler
 {
-    [SerializeField] Image Image;
+    [SerializeField] protected Image Image;
     [SerializeField] ItemTooltip itemTooltip;
     private Item _item;
     public event Action<ItemSlot> OnRightClickEvent;

@@ -10,6 +10,7 @@ public class InventoryManager : MonoBehaviour
     public CharacterStat Intelligence;
     public CharacterStat Vitality;
 
+    [SerializeField] InfinityInventory InfinityInventory;
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentPanel equipmentPanel;
     [SerializeField] StatPanel statPanel;
@@ -22,18 +23,23 @@ public class InventoryManager : MonoBehaviour
         statPanel.SetStats(Strength, Agility, Intelligence, Vitality);
         statPanel.UpdateStatValues();
         inventory.OnItemRightClickedEvent += Equip;
+        InfinityInventory.OnItemRightClickedEvent += Equip;
         equipmentPanel.OnItemRightClickedEvent += UnEquip;
 
         inventory.OnItemBeginDragEvent += BeginDrag;
+        InfinityInventory.OnItemBeginDragEvent += BeginDrag;
         equipmentPanel.OnItemBeginDragEvent += BeginDrag;
 
         inventory.OnDragEvent += Drag;
+        InfinityInventory.OnDragEvent += Drag;
         equipmentPanel.OnItemDraggingEvent += Drag;
 
         inventory.OnItemDroppedEvent += Drop;
+        InfinityInventory.OnItemDroppedEvent += Drop;
         equipmentPanel.OnItemDroppedEvent += Drop;
         
         inventory.OnItemEndDragEvent += EndDrag;
+        InfinityInventory.OnItemEndDragEvent += EndDrag;
         equipmentPanel.OnItemEndDragEvent += EndDrag;
     }
 
@@ -67,6 +73,26 @@ public class InventoryManager : MonoBehaviour
             else
             {
                 inventory.AddItem(item);
+            }
+        }
+        if (InfinityInventory.RemoveItem(item))
+        {
+            EquipableItem previousItem;
+            if (equipmentPanel.AddItem(item, out previousItem))
+            {
+                if (previousItem != null)
+                {
+                    InfinityInventory.AddItem(previousItem);
+                    previousItem.UnEquip(this);
+                    statPanel.UpdateStatValues();
+                }
+
+                item.Equip(this);
+                statPanel.UpdateStatValues();
+            }
+            else
+            {
+                InfinityInventory.AddItem(item);
             }
         }
     }
